@@ -162,7 +162,12 @@ class Motor:
             #                 self.isbound = True
 
             else:
-                self.pos += (random.choice([-1, 1]) * self.cell.rms_disp)
+                r=np.random.rand()
+                if r<.5:
+                    self.pos -= self.cell.rms_disp
+                else:
+                    self.pos += self.cell.rms_disp
+                # self.pos += (random.choice([-1, 1]) * self.cell.rms_disp)
             #             self.track.append(self.pos)
 
 
@@ -193,7 +198,13 @@ class Motor:
 
                 # try this line to force positions in between 0 and L:
                 # self.pos = np.median([0,self.cell.L,self.pos])
-                self.pos = min(max(0, self.pos), self.cell.L)
+
+                if self.pos < 0:
+                    self.pos = 0
+                elif self.pos > self.cell.L:
+                    self.pos = self.cell.L
+
+                # self.pos = min(max(0, self.pos), self.cell.L)
 
             #             self.track.append(self.pos)
 
